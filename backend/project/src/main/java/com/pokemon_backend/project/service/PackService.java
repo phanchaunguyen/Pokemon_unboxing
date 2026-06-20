@@ -43,9 +43,23 @@ public class PackService {
             }
         }
 
-        // 2. Generate the Pack (Simplistic RNG for now)
-        // In a real scenario, you would weight this heavily by rarity (e.g., 6 Commons, 3 Uncommons, 1 Rare)
-        List<Card> pulledCards = cardRepository.findRandomCards(CARDS_PER_PACK);
+        // 2. Generate the Pack (Weighted RNG)
+        List<Card> pulledCards = new ArrayList<>();
+
+        // Slot 1-6: Commons
+        pulledCards.addAll(cardRepository.findRandomCardsByExactRarity("Common", 6));
+
+        // Slot 7-9: Uncommons
+        pulledCards.addAll(cardRepository.findRandomCardsByExactRarity("Uncommon", 3));
+
+        // Slot 10: The Rare Hit!
+        pulledCards.addAll(cardRepository.findRandomRareCards(1));
+
+        // Fallback safety check just in case your database lacks certain rarities
+        if (pulledCards.size() < CARDS_PER_PACK) {
+            int missing = CARDS_PER_PACK - pulledCards.size();
+            pulledCards.addAll(cardRepository.findRandomCards(missing));
+        }
 
         if (pulledCards.size() < CARDS_PER_PACK) {
             throw new RuntimeException("Not enough cards in the database to generate a pack!");

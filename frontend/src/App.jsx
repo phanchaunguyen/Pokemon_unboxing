@@ -1,56 +1,50 @@
+import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
-import { PackageOpen, BookOpen } from 'lucide-react';
+import { PackageOpen, BookOpen, LogOut } from 'lucide-react';
 import PackOpener from './components/PackOpener';
 import Library from './components/Library';
-import './App.css'; // Make sure this CSS import is here
+import Login from './components/Login';
+import './App.css';
 
 function App() {
-  // Hardcoding a mock userId for local development.
-  // Later, this will come from your login/authentication system.
-  const currentUserId = 1;
+  const [currentUserId, setCurrentUserId] = useState(null);
+
+  // If no user is logged in, show ONLY the login screen
+  if (!currentUserId) {
+    return <Login onLoginSuccess={(id) => setCurrentUserId(id)} />;
+  }
 
   return (
       <Router>
         <div className="app-container">
-
-          {/* --- NAVIGATION BAR --- */}
           <nav className="navbar">
-            <div className="nav-brand">
-              {/* You can replace this src with a real pokeball icon later */}
-              <div className="logo-circle"></div>
-              <h1>PokéRip</h1>
-            </div>
+            {/* ... existing nav-brand code ... */}
 
             <div className="nav-links">
-              <NavLink
-                  to="/"
-                  className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}
-              >
+              <NavLink to="/" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
                 <PackageOpen size={20} />
                 <span>Open Packs</span>
               </NavLink>
-
-              <NavLink
-                  to="/library"
-                  className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}
-              >
+              <NavLink to="/library" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
                 <BookOpen size={20} />
                 <span>My Binder</span>
               </NavLink>
+
+              {/* Add a simple logout button */}
+              <button onClick={() => setCurrentUserId(null)} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <LogOut size={18} /> Logout
+              </button>
             </div>
           </nav>
 
-          {/* --- PAGE CONTENT (ROUTER) --- */}
           <main className="main-content">
             <Routes>
               <Route path="/" element={<PackOpener userId={currentUserId} />} />
               <Route path="/library" element={<Library userId={currentUserId} />} />
             </Routes>
           </main>
-
         </div>
       </Router>
   );
 }
-
 export default App;
