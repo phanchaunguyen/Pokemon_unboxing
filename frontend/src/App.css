@@ -242,3 +242,128 @@ body {
   cursor: not-allowed;
   transform: none;
 }
+
+/* ==========================================
+   Pack Opener 3D Stack Mechanics
+   ========================================== */
+.card-stack-container {
+  position: relative;
+  width: 260px;
+  height: 360px;
+  margin: 0 auto;
+  perspective: 1000px;
+}
+
+.stacked-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  cursor: pointer;
+  border-radius: 12px;
+  /* Dark shadow to separate the layers in the stack */
+  box-shadow: -5px 5px 20px rgba(0, 0, 0, 0.8);
+}
+
+.stacked-card:hover {
+  transform: translateY(-10px) !important;
+  box-shadow: -5px 15px 30px rgba(0, 0, 0, 0.9);
+}
+
+.stacked-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+/* Quick stats overlay on the active card in the stack */
+.card-quick-stats {
+  position: absolute;
+  bottom: -40px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  opacity: 0;
+  animation: slideUpFade 0.3s forwards 0.2s;
+}
+
+.quick-rarity {
+  color: var(--text-muted);
+  font-weight: bold;
+}
+
+.quick-price {
+  color: var(--success);
+  font-weight: bold;
+}
+
+.next-card-btn {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 12px 24px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.next-card-btn:hover {
+  background: var(--bg-elevated);
+  border-color: var(--text-muted);
+}
+
+/* Special VFX for the 10th card */
+.rare-glow {
+  box-shadow: 0 0 40px rgba(139, 92, 246, 0.6) !important;
+  border: 2px solid var(--accent-primary);
+}
+
+.hit-badge {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  color: white;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-weight: 900;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  z-index: 100;
+}
+
+.error-box {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  padding: 15px 30px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+@keyframes slideUpFade {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.pulse-anim {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
+  70% { transform: scale(1.02); box-shadow: 0 0 0 15px rgba(139, 92, 246, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+}

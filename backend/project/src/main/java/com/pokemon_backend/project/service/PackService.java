@@ -27,7 +27,7 @@ public class PackService {
     @Autowired
     private UserCardRepository userCardRepository;
 
-    private static final int COOLDOWN_HOURS = 4;
+    private static final int COOLDOWN_HOURS = 1;
     private static final int CARDS_PER_PACK = 10;
 
     @Transactional
