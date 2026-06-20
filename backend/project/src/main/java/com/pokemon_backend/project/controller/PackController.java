@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/packs")
-@CrossOrigin(origins = "http://localhost:5173") // Crucial: Allows your Vite React app to talk to Spring Boot
+@CrossOrigin(origins = "*") // Crucial: Allows your Vite React app to talk to Spring Boot
 public class PackController {
 
     @Autowired
